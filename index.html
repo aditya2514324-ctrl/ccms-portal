@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="College Complaint Management System - Submit and track institutional complaints securely.">
+    <title>College Complaint Box | Aditya Mathur</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Dynamic Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Custom Cursor Details -->
+    <div class="custom-cursor" id="custom-cursor"></div>
+    <div class="custom-cursor-dot" id="custom-cursor-dot"></div>
+
+    <!-- ==========================================
+       AUTHENTICATION SECTION (Logged Out)
+       ========================================== */ -->
+    <div id="auth-container" class="auth-wrapper">
+        <div class="auth-overlay"></div>
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1 class="logo-text"><span class="gold-text">C</span>OLLEGE <span class="gold-text">C</span>OMPLAINT BOX</h1>
+                <p class="auth-subtitle">Institutional Grievance Portal</p>
+                <div class="title-bar"></div>
+            </div>
+
+            <!-- Login Card Form -->
+            <div id="login-form-wrapper" class="form-wrapper active">
+                <h2>Student Login</h2>
+                <form id="login-form" novalidate>
+                    <div class="form-group">
+                        <input type="email" id="login-email" class="form-control" placeholder="Email Address" required>
+                        <label for="login-email">Email Address</label>
+                        <span class="error-msg" id="login-email-error">Enter a valid student email address.</span>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="login-password" class="form-control" placeholder="Password" required>
+                        <label for="login-password">Password</label>
+                        <span class="error-msg" id="login-password-error">Password must be at least 8 characters.</span>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <span>Authenticate Session</span>
+                        <i class="fa-solid fa-key"></i>
+                    </button>
+                </form>
+                <div class="auth-toggle-link">
+                    New student? <a href="#" id="go-to-register" class="gold-text">Create an Account</a>
+                </div>
+            </div>
+
+            <!-- Registration Card Form -->
+            <div id="register-form-wrapper" class="form-wrapper">
+                <h2>Student Registration</h2>
+                <form id="register-form" novalidate>
+                    <div class="form-group">
+                        <input type="text" id="register-name" class="form-control" placeholder="Full Name" required>
+                        <label for="register-name">Full Name</label>
+                        <span class="error-msg" id="register-name-error">Please enter your name (min 3 letters).</span>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="register-email" class="form-control" placeholder="Email Address" required>
+                        <label for="register-email">Email Address</label>
+                        <span class="error-msg" id="register-email-error">Please enter a valid email address.</span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="register-roll" class="form-control" placeholder="Roll Number (e.g. CS-2024-001)" required>
+                        <label for="register-roll">Roll Number</label>
+                        <span class="error-msg" id="register-roll-error">Roll number is required.</span>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="register-password" class="form-control" placeholder="Password (min 8 chars)" required>
+                        <label for="register-password">Password</label>
+                        <span class="error-msg" id="register-password-error">Password must be at least 8 characters with 1 number.</span>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="register-confirm-password" class="form-control" placeholder="Confirm Password" required>
+                        <label for="register-confirm-password">Confirm Password</label>
+                        <span class="error-msg" id="register-confirm-error">Passwords do not match.</span>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <span>Register Account</span>
+                        <i class="fa-solid fa-user-plus"></i>
+                    </button>
+                </form>
+                <div class="auth-toggle-link">
+                    Already registered? <a href="#" id="go-to-login" class="gold-text">Sign In</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==========================================
+       APP MAIN DASHBOARD SECTION (Logged In)
+       ========================================== */ -->
+    <div id="app-container" class="app-layout" style="display: none;">
+        
+        <!-- Sidebar Navigation Drawer -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span class="gold-text"><i class="fa-solid fa-box-open"></i></span>
+                <span class="brand-title">CCMS PORTAL</span>
+            </div>
+            
+            <div class="sidebar-user">
+                <div class="user-avatar"><i class="fa-solid fa-user-graduate gold-text"></i></div>
+                <div class="user-details">
+                    <h4 id="user-display-name">Aditya Mathur</h4>
+                    <p id="user-display-roll">Roll: CS-2024-001</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-menu">
+                <ul class="menu-list">
+                    <li>
+                        <a href="#" class="menu-link active" data-target="dashboard-view">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-link" data-target="submit-view">
+                            <i class="fa-solid fa-circle-plus"></i>
+                            <span>Submit Complaint</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-link" data-target="my-complaints-view">
+                            <i class="fa-solid fa-list-check"></i>
+                            <span>My Complaints</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button id="btn-logout" class="btn btn-outline btn-block btn-logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Log Out</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Workspace Area -->
+        <div class="main-workspace">
+            
+            <!-- Top Navigation bar for smaller viewports -->
+            <header class="top-nav">
+                <button class="menu-toggle-btn" id="sidebar-toggle" aria-label="Toggle Sidebar">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="top-nav-title">College Complaint Box</div>
+                <button id="top-logout-btn" class="top-logout-icon" aria-label="Logout"><i class="fa-solid fa-right-from-bracket"></i></button>
+            </header>
+
+            <div class="content-container">
+                
+                <!-- VIEW 1: STUDENT DASHBOARD -->
+                <section id="dashboard-view" class="view-panel active">
+                    <div class="view-header">
+                        <h2>Dashboard Overview</h2>
+                        <p class="text-muted">Welcome back. Track your submitted complaints and check updates.</p>
+                    </div>
+
+                    <!-- Metrics Stats Grid -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper"><i class="fa-solid fa-file-invoice gold-text"></i></div>
+                            <div class="stat-details">
+                                <h3 id="stat-total" class="gold-text">0</h3>
+                                <p class="stat-label">Total Complaints</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper"><i class="fa-solid fa-clock-rotate-left gold-text"></i></div>
+                            <div class="stat-details">
+                                <h3 id="stat-pending" class="gold-text">0</h3>
+                                <p class="stat-label">Pending / In Progress</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper"><i class="fa-solid fa-circle-check gold-text"></i></div>
+                            <div class="stat-details">
+                                <h3 id="stat-resolved" class="gold-text">0</h3>
+                                <p class="stat-label">Resolved Complaints</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Complaints Panel -->
+                    <div class="dashboard-section-wrapper glass-card">
+                        <div class="card-header">
+                            <h3>Recent Complaints</h3>
+                            <button class="btn btn-outline btn-sm view-all-trigger" data-target="my-complaints-view">View All</button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Complaint ID</th>
+                                        <th>Title</th>
+                                        <th>Category</th>
+                                        <th>Priority</th>
+                                        <th>Status</th>
+                                        <th>Date Created</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recent-complaints-list">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 2: SUBMIT COMPLAINT FORM -->
+                <section id="submit-view" class="view-panel">
+                    <div class="view-header">
+                        <h2>Submit New Complaint</h2>
+                        <p class="text-muted">Fill in the fields below to submit a formal grievance. Our administrators will review it.</p>
+                    </div>
+
+                    <div class="form-container-card glass-card">
+                        <form id="complaint-submission-form" novalidate>
+                            <div class="form-row">
+                                <div class="form-group flex-2">
+                                    <input type="text" id="complaint-title" class="form-control" placeholder="Complaint Title" required>
+                                    <label for="complaint-title">Complaint Title (e.g. Wi-Fi broken in Block A)</label>
+                                    <span class="error-msg" id="title-error">Complaint title must be between 10 and 150 characters.</span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row split">
+                                <div class="form-group">
+                                    <select id="complaint-category" class="form-control select-control" required>
+                                        <option value="" disabled selected hidden>Select Category</option>
+                                        <option value="classroom">🏫 Classroom</option>
+                                        <option value="wifi/internet">📶 Wi-Fi / Internet</option>
+                                        <option value="electrical">⚡ Electrical</option>
+                                        <option value="laboratory">🔬 Laboratory</option>
+                                        <option value="library">📚 Library</option>
+                                        <option value="washroom">🚻 Washroom</option>
+                                        <option value="canteen">🍽️ Canteen</option>
+                                        <option value="security">🛡️ Security</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                    <label for="complaint-category">Category</label>
+                                    <span class="error-msg" id="category-error">Please select a valid complaint category.</span>
+                                </div>
+                                <div class="form-group">
+                                    <select id="complaint-priority" class="form-control select-control" required>
+                                        <option value="Low" selected>🟢 Low Priority</option>
+                                        <option value="Medium">🟡 Medium Priority</option>
+                                        <option value="High">🔴 High Priority</option>
+                                    </select>
+                                    <label for="complaint-priority">Grievance Priority</label>
+                                    <span class="error-msg" id="priority-error">Please choose a priority.</span>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <textarea id="complaint-desc" rows="6" class="form-control" placeholder="Detailed Description" required></textarea>
+                                    <label for="complaint-desc">Detailed Description</label>
+                                    <span class="error-msg" id="desc-error">Please describe your complaint in detail (min 20 characters).</span>
+                                </div>
+                            </div>
+
+                            <div class="form-actions-row">
+                                <button type="submit" class="btn btn-primary">
+                                    <span>Submit Complaint</span>
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                </button>
+                                <button type="reset" class="btn btn-outline" id="btn-reset-form">Reset Form</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- VIEW 3: MY COMPLAINTS LIST -->
+                <section id="my-complaints-view" class="view-panel">
+                    <div class="view-header">
+                        <h2>My Complaints</h2>
+                        <p class="text-muted">Search, filter, and track status updates on all your submitted grievances.</p>
+                    </div>
+
+                    <!-- Search and Filtering Header -->
+                    <div class="table-actions-header glass-card">
+                        <div class="search-box">
+                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                            <input type="text" id="search-complaints-input" placeholder="Search title or ID...">
+                        </div>
+                        <div class="filter-dropdowns">
+                            <select id="filter-category-select" class="filter-select">
+                                <option value="all">All Categories</option>
+                                <option value="classroom">Classroom</option>
+                                <option value="wifi/internet">Wi-Fi / Internet</option>
+                                <option value="electrical">Electrical</option>
+                                <option value="laboratory">Laboratory</option>
+                                <option value="library">Library</option>
+                                <option value="washroom">Washroom</option>
+                                <option value="canteen">Canteen</option>
+                                <option value="security">Security</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <select id="filter-status-select" class="filter-select">
+                                <option value="all">All Statuses</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Assigned">Assigned</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Resolved">Resolved</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Complaints List Table -->
+                    <div class="complaints-list-wrapper glass-card">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Complaint ID</th>
+                                        <th>Title</th>
+                                        <th>Category</th>
+                                        <th>Priority</th>
+                                        <th>Status</th>
+                                        <th>Date Created</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="my-complaints-table-body">
+                                    <!-- Filled dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Empty list state message -->
+                        <div id="table-empty-state" class="empty-state">
+                            <i class="fa-solid fa-folder-open empty-icon"></i>
+                            <h3>No complaints found</h3>
+                            <p>Try refining your search text or filters, or submit a new complaint to get started.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Overlay Drawer Modal -->
+    <div id="complaint-detail-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Complaint Details</h3>
+                <button class="close-modal-btn" id="close-modal-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body" id="modal-details-body">
+                <!-- Injected dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+</html>
