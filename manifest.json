@@ -1,0 +1,21 @@
+{
+  "name": "Dr. Alok Mohta Clinic Management",
+  "short_name": "Clinic Mgmt",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#667eea",
+  "theme_color": "#764ba2",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
