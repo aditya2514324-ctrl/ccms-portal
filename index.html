@@ -1,375 +1,777 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="College Complaint Management System - Submit and track institutional complaints securely.">
-    <title>College Complaint Box | Aditya Mathur</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+    <title>Dr. Alok Mohta - Clinic Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background-color: #f5f5f5;
+            border-bottom: 2px solid #ddd;
+            overflow-x: auto;
+        }
+
+        .nav-tabs button {
+            flex: 1;
+            padding: 15px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .nav-tabs button:hover {
+            background-color: #e8e8e8;
+        }
+
+        .nav-tabs button.active {
+            background-color: #667eea;
+            color: white;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="time"],
+        input[type="email"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="time"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+
+        button {
+            padding: 12px 30px;
+            background-color: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background-color: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .row.full {
+            grid-template-columns: 1fr;
+        }
+
+        .patient-card {
+            background: #f9f9f9;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .patient-card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateX(5px);
+        }
+
+        .patient-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .patient-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .info-item {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .appointment-card {
+            background: url(https://in.linkedin.com/in/alok-mohta-2a05a847) no-repeat center center;
+            background-size: cover;
+            color: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .appointment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .appointment-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .appointment-info {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .schedule-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .schedule-card h3 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .schedule-card p {
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #999;
+            padding: 40px;
+            font-size: 18px;
+        }
+
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+        }
+
+        .history-item {
+            background: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .history-date {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .history-notes {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .days-gap {
+            display: inline-block;
+            background-color: #667eea;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-left: 10px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .nav-tabs button {
+                font-size: 14px;
+                padding: 12px 15px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Dr. Alok Mohta's Clinic</h1>
+            <p>Jodhpur | Patient Management & Appointment System</p>
+        </div>
 
-    <!-- Dynamic Toast Notification Container -->
-    <div id="toast-container" class="toast-container"></div>
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('dashboard')">Dashboard</button>
+            <button class="tab-btn" onclick="switchTab('patients')">Patient Records</button>
+            <button class="tab-btn" onclick="switchTab('search')">Search Patient</button>
+            <button class="tab-btn" onclick="switchTab('appointments')">Appointments</button>
+            <button class="tab-btn" onclick="switchTab('schedule')">Doctor's Schedule</button>
+        </div>
 
-    <!-- Custom Cursor Details -->
-    <div class="custom-cursor" id="custom-cursor"></div>
-    <div class="custom-cursor-dot" id="custom-cursor-dot"></div>
-
-    <!-- ==========================================
-       AUTHENTICATION SECTION (Logged Out)
-       ========================================== */ -->
-    <div id="auth-container" class="auth-wrapper">
-        <div class="auth-overlay"></div>
-        <div class="auth-card">
-            <div class="auth-header">
-                <h1 class="logo-text"><span class="gold-text">C</span>OLLEGE <span class="gold-text">C</span>OMPLAINT BOX</h1>
-                <p class="auth-subtitle">Institutional Grievance Portal</p>
-                <div class="title-bar"></div>
-            </div>
-
-            <!-- Login Card Form -->
-            <div id="login-form-wrapper" class="form-wrapper active">
-                <h2>Student Login</h2>
-                <form id="login-form" novalidate>
-                    <div class="form-group">
-                        <input type="email" id="login-email" class="form-control" placeholder="Email Address" required>
-                        <label for="login-email">Email Address</label>
-                        <span class="error-msg" id="login-email-error">Enter a valid student email address.</span>
+        <div class="content">
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content active">
+                <h2>📊 Dashboard</h2>
+                <div class="row full" style="margin-top: 20px;">
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 8px; text-align: center;">
+                        <p style="font-size: 18px; margin-bottom: 10px;">Total Patients</p>
+                        <p style="font-size: 2.5em; font-weight: bold;" id="totalPatients">0</p>
                     </div>
-                    <div class="form-group">
-                        <input type="password" id="login-password" class="form-control" placeholder="Password" required>
-                        <label for="login-password">Password</label>
-                        <span class="error-msg" id="login-password-error">Password must be at least 8 characters.</span>
+                </div>
+                <div class="row full" style="margin-top: 20px;">
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 8px; text-align: center;">
+                        <p style="font-size: 18px; margin-bottom: 10px;">Total Appointments</p>
+                        <p style="font-size: 2.5em; font-weight: bold;" id="totalAppointments">0</p>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">
-                        <span>Authenticate Session</span>
-                        <i class="fa-solid fa-key"></i>
-                    </button>
-                </form>
-                <div class="auth-toggle-link">
-                    New student? <a href="#" id="go-to-register" class="gold-text">Create an Account</a>
+                </div>
+                <div class="row full" style="margin-top: 20px;">
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 8px;">
+                        <h3>🕒 Today's Schedule</h3>
+                        <div id="todaySchedule" style="margin-top: 15px;">
+                            <p>Check the schedule section for today's timing</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Registration Card Form -->
-            <div id="register-form-wrapper" class="form-wrapper">
-                <h2>Student Registration</h2>
-                <form id="register-form" novalidate>
+            <!-- Patient Records Tab -->
+            <div id="patients" class="tab-content">
+                <h2>👥 Add New Patient Record</h2>
+                <div id="patientMessage"></div>
+                <div class="row full">
                     <div class="form-group">
-                        <input type="text" id="register-name" class="form-control" placeholder="Full Name" required>
-                        <label for="register-name">Full Name</label>
-                        <span class="error-msg" id="register-name-error">Please enter your name (min 3 letters).</span>
+                        <label for="patientName">Patient Name *</label>
+                        <input type="text" id="patientName" placeholder="Enter full name">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="patientAge">Age *</label>
+                        <input type="text" id="patientAge" placeholder="Enter age">
                     </div>
                     <div class="form-group">
-                        <input type="email" id="register-email" class="form-control" placeholder="Email Address" required>
-                        <label for="register-email">Email Address</label>
-                        <span class="error-msg" id="register-email-error">Please enter a valid email address.</span>
+                        <label for="patientPhone">Phone Number *</label>
+                        <input type="tel" id="patientPhone" placeholder="Enter phone number">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="visitDate">Visit Date *</label>
+                        <input type="date" id="visitDate">
                     </div>
                     <div class="form-group">
-                        <input type="text" id="register-roll" class="form-control" placeholder="Roll Number (e.g. CS-2024-001)" required>
-                        <label for="register-roll">Roll Number</label>
-                        <span class="error-msg" id="register-roll-error">Roll number is required.</span>
+                        <label for="patientGender">Gender</label>
+                        <select id="patientGender">
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="diagnosis">Diagnosis/Notes</label>
+                    <textarea id="diagnosis" placeholder="Enter patient diagnosis and treatment notes" rows="4"></textarea>
+                </div>
+                <button onclick="addPatient()">➕ Add Patient Record</button>
+
+                <h3 style="margin-top: 40px; margin-bottom: 20px;">📋 All Patients</h3>
+                <div id="patientsList"></div>
+            </div>
+
+            <!-- Search Patient Tab -->
+            <div id="search" class="tab-content">
+                <h2>🔍 Search Patient</h2>
+                <div class="form-group">
+                    <label for="searchPatient">Enter Patient Name</label>
+                    <input type="text" id="searchPatient" placeholder="Type patient name..." onkeyup="searchPatient()">
+                </div>
+                <div id="searchResults"></div>
+            </div>
+
+            <!-- Appointments Tab -->
+            <div id="appointments" class="tab-content">
+                <h2>📅 Book Appointment</h2>
+                <div id="appointmentMessage"></div>
+                <div class="form-group">
+                    <label for="apptPatientName">Patient Name *</label>
+                    <input type="text" id="apptPatientName" placeholder="Enter patient name">
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="apptDate">Appointment Date *</label>
+                        <input type="date" id="apptDate">
                     </div>
                     <div class="form-group">
-                        <input type="password" id="register-password" class="form-control" placeholder="Password (min 8 chars)" required>
-                        <label for="register-password">Password</label>
-                        <span class="error-msg" id="register-password-error">Password must be at least 8 characters with 1 number.</span>
+                        <label for="apptTime">Appointment Time *</label>
+                        <input type="time" id="apptTime">
                     </div>
-                    <div class="form-group">
-                        <input type="password" id="register-confirm-password" class="form-control" placeholder="Confirm Password" required>
-                        <label for="register-confirm-password">Confirm Password</label>
-                        <span class="error-msg" id="register-confirm-error">Passwords do not match.</span>
+                </div>
+                <div class="form-group">
+                    <label for="apptReason">Reason for Visit</label>
+                    <textarea id="apptReason" placeholder="Enter reason for appointment" rows="3"></textarea>
+                </div>
+                <button onclick="bookAppointment()">📅 Book Appointment</button>
+
+                <h3 style="margin-top: 40px; margin-bottom: 20px;">📋 Scheduled Appointments</h3>
+                <div id="appointmentsList"></div>
+            </div>
+
+            <!-- Schedule Tab -->
+            <div id="schedule" class="tab-content">
+                <h2>🕒 Doctor's Schedule</h2>
+                <p style="color: #666; margin-bottom: 20px;">Dr. Alok Mohta's consultation timings</p>
+                <div class="schedule-grid">
+                    <div class="schedule-card">
+                        <h3>🌅 Monday to Friday</h3>
+                        <p>9:00 AM - 1:00 PM</p>
+                        <p style="margin-top: 15px; font-size: 0.9em; opacity: 0.9;">Morning Session</p>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">
-                        <span>Register Account</span>
-                        <i class="fa-solid fa-user-plus"></i>
-                    </button>
-                </form>
-                <div class="auth-toggle-link">
-                    Already registered? <a href="#" id="go-to-login" class="gold-text">Sign In</a>
+                    <div class="schedule-card">
+                        <h3>🌅 Monday to Friday</h3>
+                        <p>4:00 PM - 7:00 PM</p>
+                        <p style="margin-top: 15px; font-size: 0.9em; opacity: 0.9;">Evening Session</p>
+                    </div>
+                    <div class="schedule-card">
+                        <h3>🌞 Saturday</h3>
+                        <p>10:00 AM - 2:00 PM</p>
+                        <p style="margin-top: 15px; font-size: 0.9em; opacity: 0.9;">By Appointment Only</p>
+                    </div>
+                    <div class="schedule-card">
+                        <h3>🚫 Sunday</h3>
+                        <p>Closed</p>
+                        <p style="margin-top: 15px; font-size: 0.9em; opacity: 0.9;">Holiday</p>
+                    </div>
+                </div>
+                <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-top: 30px; border-left: 4px solid #667eea;">
+                    <h3 style="color: #667eea; margin-bottom: 10px;">📍 Location</h3>
+                    <p><strong>Jodhpur, Rajasthan</strong></p>
+                    <p style="color: #666; margin-top: 10px;">For emergency appointments, please call ahead</p>
                 </div>
             </div>
         </div>
     </div>
 
+    <script>
+        // Initialize with sample data
+        function initializeData() {
+            if (!localStorage.getItem('patients')) {
+                localStorage.setItem('patients', JSON.stringify([]));
+            }
+            if (!localStorage.getItem('appointments')) {
+                localStorage.setItem('appointments', JSON.stringify([]));
+            }
+        }
 
-    <!-- ==========================================
-       APP MAIN DASHBOARD SECTION (Logged In)
-       ========================================== */ -->
-    <div id="app-container" class="app-layout" style="display: none;">
-        
-        <!-- Sidebar Navigation Drawer -->
-        <aside class="sidebar">
-            <div class="sidebar-brand">
-                <span class="gold-text"><i class="fa-solid fa-box-open"></i></span>
-                <span class="brand-title">CCMS PORTAL</span>
-            </div>
+        // Switch tabs
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             
-            <div class="sidebar-user">
-                <div class="user-avatar"><i class="fa-solid fa-user-graduate gold-text"></i></div>
-                <div class="user-details">
-                    <h4 id="user-display-name">Aditya Mathur</h4>
-                    <p id="user-display-roll">Roll: CS-2024-001</p>
-                </div>
-            </div>
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
 
-            <nav class="sidebar-menu">
-                <ul class="menu-list">
-                    <li>
-                        <a href="#" class="menu-link active" data-target="dashboard-view">
-                            <i class="fa-solid fa-chart-line"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="menu-link" data-target="submit-view">
-                            <i class="fa-solid fa-circle-plus"></i>
-                            <span>Submit Complaint</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="menu-link" data-target="my-complaints-view">
-                            <i class="fa-solid fa-list-check"></i>
-                            <span>My Complaints</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+            if (tabName === 'patients') {
+                displayAllPatients();
+            } else if (tabName === 'appointments') {
+                displayAllAppointments();
+            } else if (tabName === 'dashboard') {
+                updateDashboard();
+            }
+        }
 
-            <div class="sidebar-footer">
-                <button id="btn-logout" class="btn btn-outline btn-block btn-logout">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    <span>Log Out</span>
-                </button>
-            </div>
-        </aside>
+        // Add patient record
+        function addPatient() {
+            const name = document.getElementById('patientName').value.trim();
+            const age = document.getElementById('patientAge').value.trim();
+            const phone = document.getElementById('patientPhone').value.trim();
+            const visitDate = document.getElementById('visitDate').value;
+            const gender = document.getElementById('patientGender').value;
+            const diagnosis = document.getElementById('diagnosis').value.trim();
 
-        <!-- Main Workspace Area -->
-        <div class="main-workspace">
+            if (!name || !age || !phone || !visitDate) {
+                showMessage('patientMessage', 'Please fill all required fields', 'error');
+                return;
+            }
+
+            const patients = JSON.parse(localStorage.getItem('patients'));
+            const patient = {
+                id: Date.now(),
+                name,
+                age,
+                phone,
+                gender,
+                visits: [
+                    {
+                        date: visitDate,
+                        diagnosis,
+                        timestamp: new Date(visitDate).getTime()
+                    }
+                ]
+            };
+
+            patients.push(patient);
+            localStorage.setItem('patients', JSON.stringify(patients));
             
-            <!-- Top Navigation bar for smaller viewports -->
-            <header class="top-nav">
-                <button class="menu-toggle-btn" id="sidebar-toggle" aria-label="Toggle Sidebar">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-                <div class="top-nav-title">College Complaint Box</div>
-                <button id="top-logout-btn" class="top-logout-icon" aria-label="Logout"><i class="fa-solid fa-right-from-bracket"></i></button>
-            </header>
+            showMessage('patientMessage', `Patient "${name}" added successfully!`, 'success');
+            clearPatientForm();
+            displayAllPatients();
+            updateDashboard();
+        }
 
-            <div class="content-container">
+        // Display all patients
+        function displayAllPatients() {
+            const patients = JSON.parse(localStorage.getItem('patients'));
+            const container = document.getElementById('patientsList');
+
+            if (patients.length === 0) {
+                container.innerHTML = '<div class="no-data">No patient records yet</div>';
+                return;
+            }
+
+            container.innerHTML = patients.map(patient => {
+                const lastVisit = new Date(patient.visits[patient.visits.length - 1].date);
+                const today = new Date();
+                const daysSinceVisit = Math.floor((today - lastVisit) / (1000 * 60 * 60 * 24));
+
+                return `
+                    <div class="patient-card">
+                        <h3>${patient.name}</h3>
+                        <div class="patient-info">
+                            <div class="info-item">
+                                <span class="info-label">Age:</span> ${patient.age}
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Phone:</span> ${patient.phone}
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Gender:</span> ${patient.gender || 'N/A'}
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Total Visits:</span> ${patient.visits.length}
+                            </div>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <span class="info-label">Last Visit:</span> ${lastVisit.toLocaleDateString()}
+                            <span class="days-gap">${daysSinceVisit} days ago</span>
+                        </div>
+                        <button onclick="addVisit(${patient.id})" style="margin-top: 15px; width: 100%;">➕ Add Visit Record</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Add visit to existing patient
+        function addVisit(patientId) {
+            const patients = JSON.parse(localStorage.getItem('patients'));
+            const patient = patients.find(p => p.id === patientId);
+            
+            if (!patient) return;
+
+            const diagnosis = prompt('Enter diagnosis/notes for this visit:');
+            if (!diagnosis) return;
+
+            const today = new Date().toISOString().split('T')[0];
+            patient.visits.push({
+                date: today,
+                diagnosis,
+                timestamp: Date.now()
+            });
+
+            localStorage.setItem('patients', JSON.stringify(patients));
+            showMessage('patientMessage', 'Visit record added!', 'success');
+            displayAllPatients();
+            updateDashboard();
+        }
+
+        // Search patient
+        function searchPatient() {
+            const searchTerm = document.getElementById('searchPatient').value.toLowerCase();
+            const patients = JSON.parse(localStorage.getItem('patients'));
+            const results = patients.filter(p => p.name.toLowerCase().includes(searchTerm));
+            const container = document.getElementById('searchResults');
+
+            if (searchTerm === '') {
+                container.innerHTML = '';
+                return;
+            }
+
+            if (results.length === 0) {
+                container.innerHTML = '<div class="no-data">No patients found</div>';
+                return;
+            }
+
+            container.innerHTML = results.map(patient => {
+                const sortedVisits = patient.visits.sort((a, b) => b.timestamp - a.timestamp);
                 
-                <!-- VIEW 1: STUDENT DASHBOARD -->
-                <section id="dashboard-view" class="view-panel active">
-                    <div class="view-header">
-                        <h2>Dashboard Overview</h2>
-                        <p class="text-muted">Welcome back. Track your submitted complaints and check updates.</p>
-                    </div>
-
-                    <!-- Metrics Stats Grid -->
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-icon-wrapper"><i class="fa-solid fa-file-invoice gold-text"></i></div>
-                            <div class="stat-details">
-                                <h3 id="stat-total" class="gold-text">0</h3>
-                                <p class="stat-label">Total Complaints</p>
+                return `
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="color: #667eea; margin-bottom: 15px;">👤 ${patient.name}</h3>
+                        <div class="patient-info" style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <div class="info-item">
+                                <span class="info-label">Age:</span> ${patient.age}
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Phone:</span> ${patient.phone}
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Gender:</span> ${patient.gender || 'N/A'}
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Total Visits:</span> ${patient.visits.length}
                             </div>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-icon-wrapper"><i class="fa-solid fa-clock-rotate-left gold-text"></i></div>
-                            <div class="stat-details">
-                                <h3 id="stat-pending" class="gold-text">0</h3>
-                                <p class="stat-label">Pending / In Progress</p>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon-wrapper"><i class="fa-solid fa-circle-check gold-text"></i></div>
-                            <div class="stat-details">
-                                <h3 id="stat-resolved" class="gold-text">0</h3>
-                                <p class="stat-label">Resolved Complaints</p>
-                            </div>
-                        </div>
-                    </div>
+                        <h4 style="color: #333; margin-bottom: 10px;">📋 Visit History</h4>
+                        ${sortedVisits.map((visit, index) => {
+                            const visitDate = new Date(visit.date);
+                            const prevDate = index < sortedVisits.length - 1 ? new Date(sortedVisits[index + 1].date) : null;
+                            const daysBetween = prevDate ? Math.floor((visitDate - prevDate) / (1000 * 60 * 60 * 24)) : 0;
 
-                    <!-- Recent Complaints Panel -->
-                    <div class="dashboard-section-wrapper glass-card">
-                        <div class="card-header">
-                            <h3>Recent Complaints</h3>
-                            <button class="btn btn-outline btn-sm view-all-trigger" data-target="my-complaints-view">View All</button>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Complaint ID</th>
-                                        <th>Title</th>
-                                        <th>Category</th>
-                                        <th>Priority</th>
-                                        <th>Status</th>
-                                        <th>Date Created</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="recent-complaints-list">
-                                    <!-- Populated dynamically -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- VIEW 2: SUBMIT COMPLAINT FORM -->
-                <section id="submit-view" class="view-panel">
-                    <div class="view-header">
-                        <h2>Submit New Complaint</h2>
-                        <p class="text-muted">Fill in the fields below to submit a formal grievance. Our administrators will review it.</p>
-                    </div>
-
-                    <div class="form-container-card glass-card">
-                        <form id="complaint-submission-form" novalidate>
-                            <div class="form-row">
-                                <div class="form-group flex-2">
-                                    <input type="text" id="complaint-title" class="form-control" placeholder="Complaint Title" required>
-                                    <label for="complaint-title">Complaint Title (e.g. Wi-Fi broken in Block A)</label>
-                                    <span class="error-msg" id="title-error">Complaint title must be between 10 and 150 characters.</span>
+                            return `
+                                <div class="history-item">
+                                    <div class="history-date">📅 ${visitDate.toLocaleDateString()}</div>
+                                    <div class="history-notes">
+                                        <strong>Notes:</strong> ${visit.diagnosis || 'No notes'}
+                                    </div>
+                                    ${daysBetween > 0 ? `<div style="color: #667eea; font-size: 13px; margin-top: 5px;">⏳ ${daysBetween} days since last visit</div>` : ''}
                                 </div>
-                            </div>
-                            
-                            <div class="form-row split">
-                                <div class="form-group">
-                                    <select id="complaint-category" class="form-control select-control" required>
-                                        <option value="" disabled selected hidden>Select Category</option>
-                                        <option value="classroom">🏫 Classroom</option>
-                                        <option value="wifi/internet">📶 Wi-Fi / Internet</option>
-                                        <option value="electrical">⚡ Electrical</option>
-                                        <option value="laboratory">🔬 Laboratory</option>
-                                        <option value="library">📚 Library</option>
-                                        <option value="washroom">🚻 Washroom</option>
-                                        <option value="canteen">🍽️ Canteen</option>
-                                        <option value="security">🛡️ Security</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                    <label for="complaint-category">Category</label>
-                                    <span class="error-msg" id="category-error">Please select a valid complaint category.</span>
-                                </div>
-                                <div class="form-group">
-                                    <select id="complaint-priority" class="form-control select-control" required>
-                                        <option value="Low" selected>🟢 Low Priority</option>
-                                        <option value="Medium">🟡 Medium Priority</option>
-                                        <option value="High">🔴 High Priority</option>
-                                    </select>
-                                    <label for="complaint-priority">Grievance Priority</label>
-                                    <span class="error-msg" id="priority-error">Please choose a priority.</span>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <textarea id="complaint-desc" rows="6" class="form-control" placeholder="Detailed Description" required></textarea>
-                                    <label for="complaint-desc">Detailed Description</label>
-                                    <span class="error-msg" id="desc-error">Please describe your complaint in detail (min 20 characters).</span>
-                                </div>
-                            </div>
-
-                            <div class="form-actions-row">
-                                <button type="submit" class="btn btn-primary">
-                                    <span>Submit Complaint</span>
-                                    <i class="fa-solid fa-paper-plane"></i>
-                                </button>
-                                <button type="reset" class="btn btn-outline" id="btn-reset-form">Reset Form</button>
-                            </div>
-                        </form>
+                            `;
+                        }).join('')}
                     </div>
-                </section>
+                `;
+            }).join('');
+        }
 
-                <!-- VIEW 3: MY COMPLAINTS LIST -->
-                <section id="my-complaints-view" class="view-panel">
-                    <div class="view-header">
-                        <h2>My Complaints</h2>
-                        <p class="text-muted">Search, filter, and track status updates on all your submitted grievances.</p>
-                    </div>
+        // Book appointment
+        function bookAppointment() {
+            const patientName = document.getElementById('apptPatientName').value.trim();
+            const apptDate = document.getElementById('apptDate').value;
+            const apptTime = document.getElementById('apptTime').value;
+            const reason = document.getElementById('apptReason').value.trim();
 
-                    <!-- Search and Filtering Header -->
-                    <div class="table-actions-header glass-card">
-                        <div class="search-box">
-                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                            <input type="text" id="search-complaints-input" placeholder="Search title or ID...">
-                        </div>
-                        <div class="filter-dropdowns">
-                            <select id="filter-category-select" class="filter-select">
-                                <option value="all">All Categories</option>
-                                <option value="classroom">Classroom</option>
-                                <option value="wifi/internet">Wi-Fi / Internet</option>
-                                <option value="electrical">Electrical</option>
-                                <option value="laboratory">Laboratory</option>
-                                <option value="library">Library</option>
-                                <option value="washroom">Washroom</option>
-                                <option value="canteen">Canteen</option>
-                                <option value="security">Security</option>
-                                <option value="other">Other</option>
-                            </select>
-                            <select id="filter-status-select" class="filter-select">
-                                <option value="all">All Statuses</option>
-                                <option value="Pending">Pending</option>
-                                <option value="Assigned">Assigned</option>
-                                <option value="In Progress">In Progress</option>
-                                <option value="Resolved">Resolved</option>
-                            </select>
+            if (!patientName || !apptDate || !apptTime) {
+                showMessage('appointmentMessage', 'Please fill all required fields', 'error');
+                return;
+            }
+
+            const appointments = JSON.parse(localStorage.getItem('appointments'));
+            const appointment = {
+                id: Date.now(),
+                patientName,
+                date: apptDate,
+                time: apptTime,
+                reason,
+                timestamp: new Date(apptDate + ' ' + apptTime).getTime()
+            };
+
+            appointments.push(appointment);
+            localStorage.setItem('appointments', JSON.stringify(appointments));
+            
+            showMessage('appointmentMessage', 'Appointment booked successfully!', 'success');
+            clearAppointmentForm();
+            displayAllAppointments();
+            updateDashboard();
+        }
+
+        // Display all appointments
+        function displayAllAppointments() {
+            const appointments = JSON.parse(localStorage.getItem('appointments'));
+            const container = document.getElementById('appointmentsList');
+
+            if (appointments.length === 0) {
+                container.innerHTML = '<div class="no-data">No appointments scheduled yet</div>';
+                return;
+            }
+
+            const sortedAppointments = appointments.sort((a, b) => a.timestamp - b.timestamp);
+
+            container.innerHTML = sortedAppointments.map(appt => {
+                const apptDate = new Date(appt.date);
+                const today = new Date();
+                const isUpcoming = apptDate >= today;
+
+                return `
+                    <div class="appointment-card">
+                        <h3>${appt.patientName}</h3>
+                        <div class="appointment-info">
+                            <div>📅 Date: ${apptDate.toLocaleDateString()}</div>
+                            <div>🕐 Time: ${appt.time}</div>
+                            ${appt.reason ? `<div>💬 Reason: ${appt.reason}</div>` : ''}
+                            <div style="margin-top: 10px; font-size: 12px; opacity: 0.9;">
+                                ${isUpcoming ? '✅ Upcoming' : '✔️ Past'}
+                            </div>
                         </div>
                     </div>
+                `;
+            }).join('');
+        }
 
-                    <!-- Complaints List Table -->
-                    <div class="complaints-list-wrapper glass-card">
-                        <div class="table-responsive">
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Complaint ID</th>
-                                        <th>Title</th>
-                                        <th>Category</th>
-                                        <th>Priority</th>
-                                        <th>Status</th>
-                                        <th>Date Created</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="my-complaints-table-body">
-                                    <!-- Filled dynamically -->
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- Empty list state message -->
-                        <div id="table-empty-state" class="empty-state">
-                            <i class="fa-solid fa-folder-open empty-icon"></i>
-                            <h3>No complaints found</h3>
-                            <p>Try refining your search text or filters, or submit a new complaint to get started.</p>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </div>
-    </div>
+        // Show messages
+        function showMessage(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            const className = type === 'error' ? 'error-message' : 'success-message';
+            element.innerHTML = `<div class="${className}">${message}</div>`;
+            setTimeout(() => {
+                element.innerHTML = '';
+            }, 4000);
+        }
 
-    <!-- Detail Overlay Drawer Modal -->
-    <div id="complaint-detail-modal" class="modal-overlay">
-        <div class="modal-card">
-            <div class="modal-header">
-                <h3>Complaint Details</h3>
-                <button class="close-modal-btn" id="close-modal-btn"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="modal-body" id="modal-details-body">
-                <!-- Injected dynamically -->
-            </div>
-        </div>
-    </div>
+        // Clear forms
+        function clearPatientForm() {
+            document.getElementById('patientName').value = '';
+            document.getElementById('patientAge').value = '';
+            document.getElementById('patientPhone').value = '';
+            document.getElementById('visitDate').value = '';
+            document.getElementById('patientGender').value = '';
+            document.getElementById('diagnosis').value = '';
+            document.getElementById('visitDate').valueAsDate = new Date();
+        }
 
-    <!-- Custom JS -->
-    <script src="script.js"></script>
+        function clearAppointmentForm() {
+            document.getElementById('apptPatientName').value = '';
+            document.getElementById('apptDate').value = '';
+            document.getElementById('apptTime').value = '';
+            document.getElementById('apptReason').value = '';
+        }
+
+        // Update dashboard
+        function updateDashboard() {
+            const patients = JSON.parse(localStorage.getItem('patients'));
+            const appointments = JSON.parse(localStorage.getItem('appointments'));
+
+            document.getElementById('totalPatients').textContent = patients.length;
+            document.getElementById('totalAppointments').textContent = appointments.length;
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', () => {
+            initializeData();
+            updateDashboard();
+            document.getElementById('visitDate').valueAsDate = new Date();
+            document.getElementById('apptDate').valueAsDate = new Date();
+        });
+    </script>
 </body>
 </html>
