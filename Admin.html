@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Alok Mohta - Admin Dashboard</title>
+    <style>
+        :root {
+            --secondary-color: #1d3557;
+            --primary-color: #e63946;
+            --text-dark: #2b2d42;
+            --text-light: #f8f9fa;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+        body {
+            background-color: #f0f4f8;
+            color: var(--text-dark);
+            padding: 30px;
+        }
+
+        .dashboard-header {
+            background: var(--secondary-color);
+            color: var(--text-light);
+            padding: 20px 40px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-left: 6px solid var(--primary-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .title-block h1 { font-size: 1.8rem; }
+        .title-block p { opacity: 0.8; font-size: 0.9rem; margin-top: 4px; }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.03);
+            border: 1px solid #e1e8ed;
+        }
+
+        .table-title { font-size: 1.3rem; margin-bottom: 20px; color: var(--secondary-color); }
+
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { background-color: #f4f7f9; color: #4a5568; padding: 15px; font-weight: 600; border-bottom: 2px solid #e2e8f0; }
+        td { padding: 15px; border-bottom: 1px solid #e2e8f0; font-size: 1rem; }
+        tr:nth-child(even) { background-color: #f9fbff; }
+
+        .empty-state { text-align: center; color: #94a3b8; padding: 50px 0; font-style: italic; }
+        .clear-btn { background: #64748b; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
+        .clear-btn:hover { background: #475569; }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-header">
+        <div class="title-block">
+            <h1>Dr. Alok Mohta Dashboard</h1>
+            <p>Live Patient Appointment Monitor Panel</p>
+        </div>
+        <button class="clear-btn" id="clearDataBtn">Clear All Records</button>
+    </div>
+
+    <div class="card">
+        <h2 class="table-title">Incoming Patient Requests</h2>
+        <table id="adminTable">
+            <thead>
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Date of Birth</th>
+                    <th>Requested Session Window</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+        <div class="empty-state" id="emptyState">No appointments found in database.</div>
+    </div>
+
+    <script>
+        const tableBody = document.getElementById('tableBody');
+        const emptyState = document.getElementById('emptyState');
+        const clearDataBtn = document.getElementById('clearDataBtn');
+
+        function loadAppointments() {
+            // Read from Shared Local Memory Data
+            const appointments = JSON.parse(localStorage.getItem('clinicAppointments')) || [];
+            
+            tableBody.innerHTML = ''; // Reset table content
+
+            if (appointments.length === 0) {
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            // Loop through data and build table rows
+            appointments.forEach(data => {
+                const row = document.createElement('tr');
+                // Reverse the standard YYYY-MM-DD input date style to friendly DD/MM/YYYY formatting
+                const formattedDob = data.dob.split('-').reverse().join('/');
+                
+                row.innerHTML = `
+                    <td><strong>${data.name}</strong></td>
+                    <td>${formattedDob}</td>
+                    <td><span style="color:#e63946; font-weight:600;">${data.slot}</span></td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Wipe memory array clear when requested
+        clearDataBtn.addEventListener('click', function() {
+            if(confirm("Are you sure you want to clear tonight's appointment logs?")) {
+                localStorage.removeItem('clinicAppointments');
+                loadAppointments();
+            }
+        });
+
+        // Run instantly on load
+        loadAppointments();
+        // Check for new patient entries automatically every 3 seconds
+        setInterval(loadAppointments, 3000);
+    </script>
+</body>
+</html>
